@@ -44,7 +44,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-const allowedImageTypes = ["image/jpeg", "image/png", "image/jpg"];
+const allowedImageTypes = ["image/jpeg", "image/png", "image/jpg","image/JPEG", "image/PNG", "image/JPG"];
 
 app.post(
   "/create-deck",
