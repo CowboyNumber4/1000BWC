@@ -469,22 +469,20 @@ const styles: { [key: string]: React.CSSProperties } = {
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    minHeight: "calc(3/5 * 100vh)", // Set the minimum height to 3/5 of the screen height
-    maxHeight: "100vh", //=================================================================================ADDED AGAIN
-    minWidth: "550px", // Set the minimum width to 550px
-    margin: "calc(1/5 * 100vh) 0", // Set the top and bottom margin to 1/5 of the screen height
-    backgroundColor: "#f0f0f0", // Off-white background
-    textAlign: "center",
-    border: "2px solid #000", // Black border
-    borderRadius: "15px", // Curved corners
+    height: "100vh", // Full height of the viewport
+    maxHeight: "100vh", // Ensure it doesn’t exceed the viewport height
+    minWidth: "550px",
     padding: "20px",
-    fontFamily: "Consolas, monospace", // Consolas font
-    boxSizing: "border-box", // Include padding and border in the element's total width and height
+    backgroundColor: "#f0f0f0",
+    textAlign: "center",
+    border: "2px solid #000",
+    borderRadius: "15px",
+    fontFamily: "Consolas, monospace",
+    boxSizing: "border-box",
     overflowY: "auto", // Allow vertical scrolling
-    overflowX: "hidden", // Disable horizontal scrolling
-    zIndex: 10, // Ensure the frame is behind the main menu
-    position: "relative", // Ensure z-index works
-  },
+    overflowX: "hidden", // Prevent horizontal scrolling
+    position: "relative", // Required for z-index
+},
   title: {
     fontSize: "2.5rem", // Adjust font size to fit better
     marginBottom: "20px",
@@ -609,8 +607,10 @@ const styles: { [key: string]: React.CSSProperties } = {
     gridTemplateColumns: "repeat(auto-fill, minmax(150px, 1fr))",
     gap: "10px",
     width: "100%",
-    marginTop: "20px",
-    zIndex: 20, // Ensure cards are above other elements
+    height: "calc(100vh - 200px)", // Adjust height based on other elements
+    overflowY: "auto", // Allow scrolling inside the grid
+    padding: "10px",
+    boxSizing: "border-box",
   },
   cardItem: {
     display: "flex",
