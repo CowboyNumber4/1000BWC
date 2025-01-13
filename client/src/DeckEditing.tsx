@@ -470,6 +470,7 @@ const styles: { [key: string]: React.CSSProperties } = {
     alignItems: "center",
     justifyContent: "center",
     minHeight: "calc(3/5 * 100vh)", // Set the minimum height to 3/5 of the screen height
+    maxHeight: "100vh", //=================================================================================ADDED AGAIN
     minWidth: "550px", // Set the minimum width to 550px
     margin: "calc(1/5 * 100vh) 0", // Set the top and bottom margin to 1/5 of the screen height
     backgroundColor: "#f0f0f0", // Off-white background
