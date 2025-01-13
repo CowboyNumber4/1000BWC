@@ -25,7 +25,7 @@ app.use(express.json()); // Add this line to parse JSON bodies
 app.use(express.static(path.join(__dirname, "../client")));
 
 // Serve static files from the 'decks' and 'assets' directories
-app.use("/decks", express.static(path.join("./1000bwc", "decks"))); // ======================================================================== NEW
+app.use("/decks", express.static(path.join(__dirname, "1000bwc/decks"))); // ======================================================================== NEW
 app.use("/assets", express.static(path.join(__dirname, "assets")));
 
 // Serve static files from the 'lobbies' directory
@@ -54,14 +54,14 @@ app.post(
       req.body;
     const thumbnail = req.file;
 
-    const deckPath = path.join("./1000bwc", "decks", deckName, "important"); // ======================================================================== NEW
+    const deckPath = path.join(__dirname, "1000bwc/decks", deckName, "important"); // ======================================================================== NEW
     const additionalPath = path.join(
-      "./1000bwc",  // ======================================================================== NEW
-      "decks",
+      __dirname,  // ======================================================================== NEW
+      "1000bwc/decks",
       deckName,
       "additional"
     );
-    const cardsPath = path.join("./1000bwc", "decks", deckName, "cards");  // ======================================================================== NEW
+    const cardsPath = path.join(__dirname, "1000bwc/decks", deckName, "cards");  // ======================================================================== NEW
     if (fs.existsSync(deckPath)) {
       res.json({ success: false, message: "Deck name already in use." });
       return;
@@ -114,7 +114,7 @@ app.get("/search-decks", (req: Request, res: Response) => {
   const keyword = req.query.keyword as string;
   const page = parseInt(req.query.page as string) || 1;
   const limit = parseInt(req.query.limit as string) || 20;
-  const decksDir = path.join("./1000bwc", "decks");   // ======================================================================== NEW
+  const decksDir = path.join(__dirname, "1000bwc/decks");   // ======================================================================== NEW
   const decks = fs.readdirSync(decksDir).filter((deckName) => {
     const deckInfoPath = path.join(
       decksDir,
@@ -160,8 +160,8 @@ app.get("/search-decks", (req: Request, res: Response) => {
 app.get("/deck-info", (req: Request, res: Response) => {
   const { deckName } = req.query;
   const deckInfoPath = path.join(
-    "./1000bwc",   // ======================================================================== NEW
-    "decks",
+    __dirname,   // ======================================================================== NEW
+    "1000bwc/decks",
     deckName as string,
     "important",
     "info.json"
@@ -177,8 +177,8 @@ app.get("/deck-info", (req: Request, res: Response) => {
 app.post("/validate-deck-password", (req: Request, res: Response) => {
   const { deckName, editPassword } = req.body;
   const deckInfoPath = path.join(
-    "./1000bwc",   // ======================================================================== NEW
-    "decks",
+    __dirname,   // ======================================================================== NEW
+    "1000bwc/decks",
     deckName,
     "important",
     "info.json"
@@ -198,8 +198,8 @@ app.post("/validate-deck-password", (req: Request, res: Response) => {
 app.post("/validate-usage-password", (req: Request, res: Response) => {
   const { deckName, usagePassword } = req.body;
   const deckInfoPath = path.join(
-    "./1000bwc",  // ======================================================================== NEW
-    "decks",
+    __dirname,  // ======================================================================== NEW
+    "1000bwc/decks",
     deckName,
     "important",
     "info.json"
@@ -219,8 +219,8 @@ app.post("/validate-usage-password", (req: Request, res: Response) => {
 app.post("/edit-deck", upload.array("cards"), (req: Request, res: Response) => {
   const { deckName, editPassword, description, cardCount } = req.body; // Add cardCount to the request body
   const deckInfoPath = path.join(
-    "./1000bwc",  // ======================================================================== NEW
-    "decks",
+    __dirname,  // ======================================================================== NEW
+    "1000bwc/decks",
     deckName,
     "important",
     "info.json"
@@ -236,8 +236,8 @@ app.post("/edit-deck", upload.array("cards"), (req: Request, res: Response) => {
         (req.files as Express.Multer.File[]).forEach((file) => {
           const tempPath = path.join(__dirname, "uploads", file.originalname);
           const targetPath = path.join(
-            "./1000bwc",  // ======================================================================== NEW
-            "decks",
+            __dirname,  // ======================================================================== NEW
+            "1000bwc/decks",
             deckName,
             "cards",
             file.originalname
@@ -260,7 +260,7 @@ app.post(
   upload.array("cards"),
   (req: Request, res: Response) => {
     const { deckName } = req.body;
-    const cardsDir = path.join("./1000bwc", "decks", deckName, "cards");  // ======================================================================== NEW
+    const cardsDir = path.join(__dirname, "1000bwc/decks", deckName, "cards");  // ======================================================================== NEW
 
     if (!fs.existsSync(cardsDir)) {
       res.status(400).json({ success: false, message: "Deck not found." });
@@ -305,7 +305,7 @@ app.post(
 
 app.get("/deck-cards", (req: Request, res: Response) => {
   const { deckName } = req.query;
-  const cardsDir = path.join("./1000bwc", "decks", deckName as string, "cards");  // ======================================================================== NEW
+  const cardsDir = path.join(__dirname, "1000bwc/decks", deckName as string, "cards");  // ======================================================================== NEW
 
   if (!fs.existsSync(cardsDir)) {
     res.status(400).json({ success: false, message: "Deck not found." });
@@ -324,8 +324,8 @@ app.get("/card-info", (req: Request, res: Response) => {
 
   const cardBaseName = path.parse(cardName as string).name; // Get the base name without extension
   const cardInfoPath = path.join(
-    "./1000bwc",   // ======================================================================== NEW
-    "decks",
+    __dirname,   // ======================================================================== NEW
+    "1000bwc/decks",
     deckName as string,
     "cards",
     `${cardBaseName}.json`
@@ -356,8 +356,8 @@ app.post(
 
     const cardBaseName = path.parse(cardName).name; // Get the base name without extension
     const cardInfoPath = path.join(
-      "./1000bwc",  // ======================================================================== NEW
-      "decks",
+      __dirname,  // ======================================================================== NEW
+      "1000bwc/decks",
       deckName,
       "cards",
       `${cardBaseName}.json`
@@ -382,8 +382,8 @@ app.post(
 
       newAdditionalFiles.forEach((fileName) => {
         const targetPath = path.join(
-          "./1000bwc",  // ======================================================================== NEW
-          "decks",
+          __dirname,  // ======================================================================== NEW
+          "1000bwc/decks",
           deckName,
           "additional",
           fileName
@@ -413,8 +413,8 @@ app.post("/remove-additional-card", (req: Request, res: Response) => {
 
   const cardBaseName = path.parse(cardName).name; // Get the base name without extension
   const cardInfoPath = path.join(
-    "./1000bwc",  // ======================================================================== NEW
-    "decks",
+    __dirname,  // ======================================================================== NEW
+    "1000bwc/decks",
     deckName,
     "cards",
     `${cardBaseName}.json`
@@ -438,10 +438,10 @@ app.post("/remove-additional-card", (req: Request, res: Response) => {
 
 app.post("/delete-card-and-json", (req: Request, res: Response) => {
   const { deckName, cardName } = req.body;
-  const cardPath = path.join("./1000bwc", "decks", deckName, "cards", cardName); // ======================================================================== NEW
+  const cardPath = path.join(__dirname, "1000bwc/decks", deckName, "cards", cardName); // ======================================================================== NEW
   const cardJsonPath = path.join(
-    "./1000bwc",  // ======================================================================== NEW
-    "decks",
+    __dirname,  // ======================================================================== NEW
+    "1000bwc/decks",
     deckName,
     "cards",
     `${path.parse(cardName).name}.json`
@@ -799,7 +799,7 @@ function logAction(roomName: string, message: string, backgroundColor: string) {
 // Function to get card data
 function getCardData(card: string): any {
   const cardPath = path.join(
-    "./1000bwc",  // ======================================================================== NEW
+    __dirname,  // ======================================================================== NEW
     card.replace(`${process.env.API_URL}`, "")
   );
   const cardJsonPath = cardPath.replace(
@@ -923,7 +923,7 @@ io.on("connection", (socket) => {
 
   // Function to get a random card from all public decks
   async function getRandomCardFromPublicDecks(): Promise<string> {
-    const decksDir = path.join("./1000bwc", "decks");   // ======================================================================== NEW
+    const decksDir = path.join(__dirname, "1000bwc/decks");   // ======================================================================== NEW
     const publicDecks = fs.readdirSync(decksDir).filter((deckName) => {
       const deckInfoPath = path.join(
         decksDir,
@@ -976,7 +976,7 @@ io.on("connection", (socket) => {
 
   // Function to get the total number of cards in all public decks
   async function getTotalCardsInPublicDecks(): Promise<number> {
-    const decksDir = path.join("./1000bwc", "decks");  // ======================================================================== NEW
+    const decksDir = path.join(__dirname, "1000bwc/decks");  // ======================================================================== NEW
     const publicDecks = fs.readdirSync(decksDir).filter((deckName) => {
       const deckInfoPath = path.join(
         decksDir,
@@ -1116,8 +1116,8 @@ io.on("connection", (socket) => {
         let mainDeck = [];
         for (const deck of selectedDecks) {
           const deckPath = path.join(
-            "./1000bwc",   // ======================================================================== NEW
-            "decks",
+            __dirname,   // ======================================================================== NEW
+            "1000bwc/decks",
             deck.deckName,
             "cards"
           );
@@ -1152,8 +1152,8 @@ io.on("connection", (socket) => {
         for (const deck of additionalDecks) {
           let additionalDeck = [];
           const deckPath = path.join(
-            "./1000bwc",   // ======================================================================== NEW
-            "decks",
+            __dirname,   // ======================================================================== NEW
+            "1000bwc/decks",
             deck.deckName,
             "cards"
           );
